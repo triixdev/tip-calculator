@@ -180,7 +180,7 @@ html[data-theme="dark"] .icon-moon {
   padding: 0;
 }
 
-.field:last-of-type {
+.field:last-child {
   margin-bottom: 0;
 }
 
