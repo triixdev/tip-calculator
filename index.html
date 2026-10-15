@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Tip Calculator</title>
+    <!-- Outfit: a clean geometric sans used for headings, labels, and numbers -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="style.css" />
+    <!-- Apply the saved theme before paint so the page does not flash the wrong colors -->
+    <script>
+      (function () {
+        const key = "tip-calculator-theme";
+        const saved = localStorage.getItem(key);
+        const prefersDark = window.matchMedia("(prefers-color-scheme: dark)").matches;
+        const theme = saved === "light" || saved === "dark" ? saved : prefersDark ? "dark" : "light";
+        document.documentElement.dataset.theme = theme;
+      })();
+    </script>
+  </head>
+  <body>
+    <main class="page">
+      <header class="intro">
+        <p class="eyebrow">Split the bill fairly</p>
+        <!-- Theme toggle: aria-pressed is kept in sync with dark mode in script.js -->
+        <button type="button" id="theme-toggle" class="theme-toggle" aria-pressed="false">
+          <span class="theme-toggle-icon" aria-hidden="true">
+            <svg class="icon-sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <circle cx="12" cy="12" r="4" />
+              <path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M4.93 19.07l1.41-1.41M17.66 6.34l1.41-1.41" />
+            </svg>
+            <svg class="icon-moon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <path d="M21 14.3A8.5 8.5 0 1 1 9.7 3a7 7 0 0 0 11.3 11.3z" />
+            </svg>
+          </span>
+          <span id="theme-toggle-label">Dark mode</span>
+        </button>
+        <h1>Tip Calculator</h1>
+        <p class="lede">
+          Enter the bill, choose a tip, and see the total — including how much each person pays.
+        </p>
+      </header>
+
+      <section class="card" aria-labelledby="calculator-heading">
+        <h2 id="calculator-heading" class="visually-hidden">Calculator</h2>
+
+        <form id="tip-form" novalidate>
+          <!-- Bill amount: the starting value before tip -->
+          <div class="field">
+            <label for="bill">Bill amount</label>
+            <div class="input-wrap">
+              <span class="prefix" aria-hidden="true">$</span>
+              <input
+                id="bill"
+                name="bill"
+                type="number"
+                inputmode="decimal"
+                min="0"
+                step="0.01"
+                placeholder="0.00"
+                value="500"
+              />
+            </div>
+          </div>
+
+          <!-- Preset percentages plus a custom field -->
+          <fieldset class="field">
+            <legend>Tip percentage</legend>
+            <div class="tip-options" role="group" aria-label="Tip percentage">
+              <button type="button" class="tip-btn" data-tip="10" aria-pressed="false">10%</button>
+              <button type="button" class="tip-btn is-active" data-tip="15" aria-pressed="true">15%</button>
+              <button type="button" class="tip-btn" data-tip="20" aria-pressed="false">20%</button>
+            </div>
+            <div class="input-wrap">
+              <input
+                id="custom-tip"
+                name="customTip"
+                type="number"
+                inputmode="decimal"
+                min="0"
+                step="0.1"
+                placeholder="Custom %"
+              />
+              <span class="suffix" aria-hidden="true">%</span>
+            </div>
+          </fieldset>
+
+          <!-- How many people share the bill -->
+          <div class="field">
+            <label for="people">Number of people</label>
+            <input
+              id="people"
+              name="people"
+              type="number"
+              inputmode="numeric"
+              min="1"
+              step="1"
+              placeholder="1"
+              value="2"
+            />
+            <p id="people-error" class="error" hidden>Enter at least 1 person.</p>
+          </div>
+        </form>
+
+        <!-- Live results: tip, grand total, and split -->
+        <div class="results" aria-live="polite">
+          <div class="result">
+            <span class="result-label">Tip amount</span>
+            <span id="tip-amount" class="result-value">$0.00</span>
+          </div>
+          <div class="result">
+            <span class="result-label">Total</span>
+            <span id="total-amount" class="result-value">$0.00</span>
+          </div>
+          <div class="result result--emphasis">
+            <span class="result-label">Per person</span>
+            <span id="per-person" class="result-value">$0.00</span>
+          </div>
+        </div>
+      </section>
+    </main>
+
+    <script src="script.js"></script>
+  </body>
+</html>
